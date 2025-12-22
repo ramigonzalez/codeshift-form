@@ -45,10 +45,11 @@ export const Step4 = ({ register, errors }: Step4Props) => {
 
       <Input
         label="Pretensão de taxa horária (USD)"
+        required
         {...register('taxa')}
         error={errors.taxa?.message}
         placeholder="Ex: $30-40/hora"
-        hint="Podemos discutir isso depois, mas ajuda a alinhar expectativas (opcional)"
+        hint="Formato flexível: $50, $50.00, $30-40/hora, ou $1,500.00"
       />
 
       <Textarea

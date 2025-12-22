@@ -231,22 +231,24 @@ export const step4Schema = z.object({
     ),
 
   taxa: z.string()
-    .optional()
-    .or(z.literal(''))
+    .min(1, 'Taxa horária é obrigatória')
     .refine(
-      (val) => !val || /^R\$\s\d{1,3}(\.\d{3})*(,\d{2})?$/.test(val),
-      'Taxa inválida - use formato brasileiro: R$ 100,00 ou R$ 1.500,50'
+      (val) => /^\$\s?\d{1,3}(,\d{3})*(\.\d{2})?(-\$?\s?\d{1,3}(,\d{3})*(\.\d{2})?)?(\/hora|\/h)?$/i.test(val),
+      'Taxa inválida - use formato USD: $50, $50.00, $30-40/hora, ou $1,500.00'
     )
     .refine(
       (val) => {
-        if (!val) return true;
-        // Parse Brazilian format: R$ 1.500,50 -> 1500.50
-        const numValue = parseFloat(
-          val.replace('R$ ', '').replace(/\./g, '').replace(',', '.')
-        );
-        return !isNaN(numValue) && numValue >= 0 && numValue <= 999999;
+        // Extract first number from formats like "$50", "$30-40", "$1,500.00"
+        const match = val.match(/^\$\s?(\d{1,3}(?:,\d{3})*)(?:\.\d{2})?/);
+        if (!match) return false;
+
+        // Remove commas and parse as number
+        const numValue = parseFloat(match[1].replace(/,/g, ''));
+
+        // Reasonable hourly rate range: $5 to $999
+        return numValue >= 5 && numValue <= 999;
       },
-      'Taxa deve estar entre R$ 0,00 e R$ 999.999,00'
+      'Taxa deve estar entre $5 e $999 por hora'
     ),
 
   comentarios: z.string()

@@ -57,7 +57,7 @@ export type StartAvailability = 'imediata' | '1-2-semanas' | '2-4-semanas' | 'ma
 export interface AvailabilityData {
   horas_semana: HoursPerWeek;
   disponibilidade: StartAvailability;
-  taxa?: string;  // Optional hourly rate
+  taxa: string;  // Required hourly rate in USD
   comentarios?: string;  // Optional comments
 }
 
@@ -111,7 +111,7 @@ export interface FormData {
   // Availability
   horas_semana: HoursPerWeek;
   disponibilidade: StartAvailability;
-  taxa?: string;
+  taxa: string;
   comentarios?: string;
 }
 
