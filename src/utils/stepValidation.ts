@@ -94,26 +94,25 @@ export const validateStep = async (
       },
     });
 
-    // Validate the step data
-    await schema.parseAsync(stepData);
-    console.log(`[STEP_VALIDATION] Step ${step} validation passed`);
-    return { isValid: true };
-  } catch (error: any) {
-    console.error('[STEP_VALIDATION] Validation failed:', error);
-
-    // Convert Zod errors to a simple error object
-    const errors: Record<string, string> = {};
-    if (error.errors) {
-      error.errors.forEach((err: any) => {
-        const field = err.path.join('.');
-        errors[field] = err.message;
-        console.log(`[STEP_VALIDATION] Error on field "${field}": ${err.message}`);
-      });
+    // Validate the step data - use safeParseAsync to handle errors better
+    const result = await schema.safeParseAsync(stepData);
+    if (result.success) {
+      console.log(`[STEP_VALIDATION] Step ${step} validation passed`);
+      return { isValid: true };
     } else {
-      console.error('[STEP_VALIDATION] Unexpected error format:', error);
+      // Handle validation errors from Zod
+      const errors: Record<string, string> = {};
+      result.error.issues.forEach((issue) => {
+        const field = issue.path && issue.path.length > 0 ? issue.path.join('.') : 'unknown';
+        errors[field] = issue.message || 'Validation error';
+        console.log(`[STEP_VALIDATION] Error on field "${field}": ${issue.message}`);
+      });
+      console.log('[STEP_VALIDATION] Returning errors:', errors);
+      return { isValid: false, errors };
     }
-
-    console.log('[STEP_VALIDATION] Returning errors:', errors);
-    return { isValid: false, errors };
+  } catch (error: any) {
+    // This catch is for unexpected errors (not Zod validation errors)
+    console.error('[STEP_VALIDATION] Unexpected error during validation:', error);
+    return { isValid: false, errors: { _error: 'Erro inesperado durante validação' } };
   }
 };

@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { useForm, useFormState } from 'react-hook-form';
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { WizardContainer } from './components/wizard/WizardContainer';
 import { Step1 } from './components/steps/Step1';
 import { Step2 } from './components/steps/Step2';
@@ -17,6 +18,7 @@ type SubmissionStatus = 'idle' | 'submitting' | 'success' | 'error';
 function App() {
   const [submissionStatus, setSubmissionStatus] = useState<SubmissionStatus>('idle');
   const [submissionError, setSubmissionError] = useState<string>('');
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
   const {
     register,
@@ -27,30 +29,53 @@ function App() {
     setValue,
     setError,
     clearErrors,
+    trigger,
+    formState: { errors: formErrors },
   } = useForm<FormData>({
     mode: 'onBlur',
+    shouldFocusError: false,
     defaultValues: {
       techs: [],
     },
   });
 
+  // Merge formErrors with validationErrors - validationErrors take precedence
+  const errors = { ...formErrors, ...Object.fromEntries(
+    Object.entries(validationErrors).map(([key, message]) => [
+      key,
+      { message, type: 'manual' }
+    ])
+  ) } as typeof formErrors;
+
   // Form persistence with localStorage
   const { clearSavedData } = useFormPersistence({ watch, setValue });
 
-  // Use useFormState to properly subscribe to form state changes
-  const { errors } = useFormState({ control });
-
   const handleValidateStep = async (step: number): Promise<boolean> => {
     console.log(`[VALIDATION] Starting validation for Step ${step}`);
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/ce68e963-6408-408e-ae46-387ce13d212d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:55',message:'handleValidateStep called',data:{step:step},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+    // #endregion
 
     // Clear only errors for the current step's fields
     const stepFields = getStepFields(step);
     stepFields.forEach(field => {
       clearErrors(field as keyof FormData);
     });
+    
+    // Clear validation errors for this step
+    setValidationErrors(prev => {
+      const updated = { ...prev };
+      stepFields.forEach(field => {
+        delete updated[field];
+      });
+      return updated;
+    });
 
     // Get current form values
     const formData = getValues();
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/ce68e963-6408-408e-ae46-387ce13d212d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:58',message:'Form data before validation',data:{formDataKeys:Object.keys(formData),nome:formData.nome,email:formData.email,linkedin:formData.linkedin},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+    // #endregion
 
     // Log form data for debugging (special handling for FileList)
     console.log('[VALIDATION] Current form data:', {
@@ -64,17 +89,47 @@ function App() {
 
     // Validate the step
     const { isValid, errors: validationErrors } = await validateStep(step, formData);
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/ce68e963-6408-408e-ae46-387ce13d212d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:71',message:'Validation result',data:{isValid:isValid,validationErrors:validationErrors,hasErrors:!!validationErrors,errorKeys:validationErrors?Object.keys(validationErrors):[]},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+    // #endregion
 
     // Set errors if validation failed
-    if (!isValid && validationErrors) {
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/ce68e963-6408-408e-ae46-387ce13d212d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:83',message:'Checking validation condition',data:{isValid:isValid,hasValidationErrors:!!validationErrors,validationErrorKeys:validationErrors?Object.keys(validationErrors):[],conditionResult:!isValid && validationErrors && Object.keys(validationErrors).length > 0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'G'})}).catch(()=>{});
+    // #endregion
+    
+    if (!isValid && validationErrors && Object.keys(validationErrors).length > 0) {
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/ce68e963-6408-408e-ae46-387ce13d212d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:87',message:'INSIDE IF BLOCK - Validation failed',data:{step:step},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H'})}).catch(()=>{});
+      // #endregion
       console.error('[VALIDATION] Validation failed with errors:', validationErrors);
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/ce68e963-6408-408e-ae46-387ce13d212d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:90',message:'Validation failed - setting errors',data:{step:step,validationErrors:validationErrors,errorCount:Object.keys(validationErrors).length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+      // #endregion
 
+      const errorMessages = Object.values(validationErrors);
+      const errorCount = errorMessages.length;
+      
+      // Show toast notification with error summary
+      if (errorCount === 1) {
+        toast.error(errorMessages[0] || 'Por favor, corrija o erro no formulário');
+      } else {
+        toast.error(`${errorCount} campos precisam ser corrigidos. Por favor, revise o formulário.`);
+      }
+
+      // Set all errors at once
+      // Set errors in both react-hook-form and local state
+      setValidationErrors(validationErrors);
+      
       Object.entries(validationErrors).forEach(([field, message]) => {
         console.log(`[VALIDATION] Setting error for field "${field}": ${message}`);
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/ce68e963-6408-408e-ae46-387ce13d212d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:124',message:'Setting error for field',data:{field:field,message:message},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+        // #endregion
         setError(field as keyof FormData, {
           type: 'manual',
-          message,
-        });
+          message: message as string,
+        }, { shouldFocus: false });
       });
 
       // Scroll to first error and focus it

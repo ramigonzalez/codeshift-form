@@ -28,14 +28,20 @@
   font-family: inherit;
 }
 
+.phoneInput.error input {
+  border-color: #ef4444;
+}
+
+.phoneInput.error input:focus {
+  outline: none;
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
 .phoneInput input:focus {
   outline: none;
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-
-.phoneInput.error input {
-  border-color: #ef4444;
 }
 
 .phoneInput select {
@@ -49,18 +55,27 @@
   transition: all 0.3s ease;
 }
 
+.input.error,
+.select.error,
+.textarea.error {
+  border-color: #ef4444;
+}
+
+/* Error state should persist even when focused */
+.input.error:focus,
+.select.error:focus,
+.textarea.error:focus {
+  outline: none;
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
 .input:focus,
 .select:focus,
 .textarea:focus {
   outline: none;
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-
-.input.error,
-.select.error,
-.textarea.error {
-  border-color: #ef4444;
 }
 
 .select:disabled {
@@ -177,6 +192,16 @@
 .fileUploadSelected {
   border-color: #22c55e;
   background: #f0fdf4;
+}
+
+.fileUpload.error {
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+
+.fileUpload.error:hover {
+  border-color: #ef4444;
+  background: #fee2e2;
 }
 
 /* Responsive Design */

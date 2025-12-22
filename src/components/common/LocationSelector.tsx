@@ -135,6 +135,7 @@ export const LocationSelector = forwardRef<HTMLSelectElement, LocationSelectorPr
             required={required}
             name={name}
             ref={ref}
+            error={error}
           />
         </div>
 
