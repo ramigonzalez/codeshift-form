@@ -34,6 +34,21 @@ export const WizardContainer = ({ children, onSubmit, onValidateStep, isSubmitti
     }
   };
 
+  const handleSubmit = async () => {
+    // Validate Step 4 before submitting
+    if (onValidateStep) {
+      setIsValidating(true);
+      const isValid = await onValidateStep(currentStep);
+      setIsValidating(false);
+
+      if (isValid) {
+        onSubmit();  // Only submit if Step 4 validation passes
+      }
+    } else {
+      onSubmit();  // Fallback if no validation function provided
+    }
+  };
+
   const getStepTitle = (step: number): string => {
     switch (step) {
       case 1:
@@ -108,15 +123,20 @@ export const WizardContainer = ({ children, onSubmit, onValidateStep, isSubmitti
           ) : (
             <button
               type="button"
-              onClick={onSubmit}
+              onClick={handleSubmit}
               className={`${wizardStyles.navButton} ${wizardStyles.navButtonPrimary}`}
-              disabled={isSubmitting}
+              disabled={isSubmitting || isValidating}
               style={{ flex: 1 }}
             >
               {isSubmitting ? (
                 <>
                   <span className={wizardStyles.loadingSpinner} />
                   Enviando...
+                </>
+              ) : isValidating ? (
+                <>
+                  <span className={wizardStyles.loadingSpinner} />
+                  Validando...
                 </>
               ) : (
                 'Enviar meu interesse 🚀'
