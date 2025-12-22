@@ -1,10 +1,10 @@
 import { FormData } from '../types/application';
 import {
+  createStep3SchemaWithConditionalTech,
   step1Schema,
   step2Schema,
   step3Schema,
   step4Schema,
-  createStep3SchemaWithConditionalTech,
 } from './validationSchemas';
 
 /**

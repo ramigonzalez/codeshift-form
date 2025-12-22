@@ -66,6 +66,7 @@ export const step2Schema = z.object({
     ),
 
   techs: z.array(z.string())
+    .max(15, 'Máximo de 15 tecnologias permitidas')
     .default([]),
 
   // Portfolio
@@ -78,9 +79,10 @@ export const step2Schema = z.object({
       'URL deve ser do GitHub (ex: https://github.com/seuperfil)'
     ),
 
-  projeto: z.string()
-    .optional()
-    .or(z.literal('')),
+  projeto: z.union([
+    z.literal(''),
+    z.string().url('URL do projeto inválida - insira uma URL completa (https://...)')
+  ]).optional(),
 
   cv: z
     .custom<FileList | File | null | undefined>()
@@ -97,15 +99,17 @@ export const step2Schema = z.object({
       return null;
     })
     .refine(
+      (file) => file !== null && file !== undefined,
+      'CV/Currículo é obrigatório - faça upload do seu PDF'
+    )
+    .refine(
       (file) => file === null || file.size <= 5 * 1024 * 1024,
       'Arquivo muito grande (máx 5MB)'
     )
     .refine(
       (file) => file === null || file.type === 'application/pdf',
       'Apenas arquivos PDF são aceitos'
-    )
-    .optional()
-    .nullable(),
+    ),
 });
 
 // Step 3: Personality + Questions Schema
@@ -114,15 +118,42 @@ export const step3Schema = z.object({
   // Personality (all optional)
   mbti: z.string()
     .optional()
-    .or(z.literal('')),
+    .or(z.literal(''))
+    .refine(
+      (val) => !val || /^[IE][NS][TF][JP]$/.test(val),
+      'MBTI inválido - formato esperado: 4 letras (ex: INTJ, ENFP)'
+    ),
 
   disc: z.string()
     .optional()
-    .or(z.literal('')),
+    .or(z.literal(''))
+    .refine(
+      (val) => !val || (/^[DISC]+$/.test(val) && val.length >= 1 && val.length <= 4),
+      'DISC inválido - use 1-4 letras: D, I, S, C (ex: D, DI, ISC)'
+    ),
 
   eneagrama: z.string()
     .optional()
-    .or(z.literal('')),
+    .or(z.literal(''))
+    .refine(
+      (val) => !val || /^[1-9]w?[0-9]?$/.test(val),
+      'Eneagrama inválido - formato esperado: número 1-9 ou com asa (ex: 5, 5w4)'
+    )
+    .refine(
+      (val) => {
+        if (!val) return true;
+        const match = val.match(/^([1-9])(w([0-9]))?$/);
+        if (!match) return false;
+        const main = parseInt(match[1]);
+        const wing = match[3] ? parseInt(match[3]) : null;
+        if (wing !== null) {
+          // Wing must be adjacent to main type (±1)
+          return Math.abs(main - wing) === 1 && wing >= 1 && wing <= 9;
+        }
+        return true;
+      },
+      'Asa do eneagrama inválida - deve ser adjacente ao tipo principal (ex: 5w4, 5w6)'
+    ),
 
   // General Questions
   motivacao: z.string()
@@ -201,7 +232,22 @@ export const step4Schema = z.object({
 
   taxa: z.string()
     .optional()
-    .or(z.literal('')),
+    .or(z.literal(''))
+    .refine(
+      (val) => !val || /^R\$\s\d{1,3}(\.\d{3})*(,\d{2})?$/.test(val),
+      'Taxa inválida - use formato brasileiro: R$ 100,00 ou R$ 1.500,50'
+    )
+    .refine(
+      (val) => {
+        if (!val) return true;
+        // Parse Brazilian format: R$ 1.500,50 -> 1500.50
+        const numValue = parseFloat(
+          val.replace('R$ ', '').replace(/\./g, '').replace(',', '.')
+        );
+        return !isNaN(numValue) && numValue >= 0 && numValue <= 999999;
+      },
+      'Taxa deve estar entre R$ 0,00 e R$ 999.999,00'
+    ),
 
   comentarios: z.string()
     .max(1000, 'Comentários muito longos (máximo 1000 caracteres)')

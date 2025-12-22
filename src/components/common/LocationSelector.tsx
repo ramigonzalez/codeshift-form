@@ -1,7 +1,7 @@
-import { useState, useEffect, forwardRef } from 'react';
-import { Country, State, City } from 'country-state-city';
-import { Select } from './Select';
+import { City, Country, State } from 'country-state-city';
+import { forwardRef, useEffect, useState } from 'react';
 import formStyles from '../../styles/form.module.css';
+import { Select } from './Select';
 
 interface LocationSelectorProps {
   label: string;

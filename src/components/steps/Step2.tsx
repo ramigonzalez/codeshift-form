@@ -106,9 +106,10 @@ export const Step2 = ({ register, errors }: Step2Props) => {
         <FileUpload
           label="CV/Currículo"
           accept=".pdf"
+          required
           {...register('cv')}
           error={errors.cv?.message}
-          hint="Opcional, mas ajuda a conhecer sua trajetória (PDF, máx 5MB)"
+          hint="Obrigatório - PDF, máx 5MB"
         />
       </div>
     </>

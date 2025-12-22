@@ -25,7 +25,7 @@ export interface ExperienceData {
 export interface PortfolioData {
   github: string;
   projeto?: string;  // Optional project description
-  cv?: File;  // Optional CV file (PDF)
+  cv: File;  // Required CV file (PDF)
 }
 
 // Step 3: Personality Profile
@@ -90,7 +90,7 @@ export interface FormData {
   // Portfolio
   github: string;
   projeto?: string;
-  cv?: File;
+  cv: File;
 
   // Personality
   mbti?: string;

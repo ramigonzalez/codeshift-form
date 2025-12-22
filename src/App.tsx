@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { WizardContainer } from './components/wizard/WizardContainer';
+import { ErrorScreen } from './components/screens/ErrorScreen';
+import { SuccessScreen } from './components/screens/SuccessScreen';
 import { Step1 } from './components/steps/Step1';
 import { Step2 } from './components/steps/Step2';
 import { Step3 } from './components/steps/Step3';
 import { Step4 } from './components/steps/Step4';
-import { SuccessScreen } from './components/screens/SuccessScreen';
-import { ErrorScreen } from './components/screens/ErrorScreen';
-import { FormData } from './types/application';
-import { validateStep, getStepFields } from './utils/stepValidation';
-import { submitToWebhook } from './services/webhookService';
+import { WizardContainer } from './components/wizard/WizardContainer';
 import { useFormPersistence } from './hooks/useFormPersistence';
+import { submitToWebhook } from './services/webhookService';
+import { FormData } from './types/application';
+import { getStepFields, validateStep } from './utils/stepValidation';
 
 type SubmissionStatus = 'idle' | 'submitting' | 'success' | 'error';
 
