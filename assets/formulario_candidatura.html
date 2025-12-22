@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidatura - AI Engineer Senior (RAG Systems)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a365d 0%, #2563eb 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 16px 16px 0 0;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 0 0 16px 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .section-title {
+            color: #1a365d;
+            font-size: 20px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title .number {
+            background: #2563eb;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .section-desc {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        label {
+            display: block;
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .required::after {
+            content: ' *';
+            color: #ef4444;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="url"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .hint {
+            color: #6b7280;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .checkbox-item:hover {
+            background: #f3f4f6;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+        
+        .checkbox-label {
+            flex: 1;
+        }
+        
+        .checkbox-label strong {
+            display: block;
+            color: #1f2937;
+            margin-bottom: 2px;
+        }
+        
+        .checkbox-label span {
+            color: #6b7280;
+            font-size: 13px;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        
+        .radio-item {
+            flex: 1;
+            min-width: 150px;
+            padding: 16px;
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .radio-item:hover {
+            border-color: #2563eb;
+        }
+        
+        .radio-item input {
+            display: none;
+        }
+        
+        .radio-item input:checked + .radio-label-content {
+            color: #2563eb;
+        }
+        
+        .radio-item:has(input:checked) {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+        
+        .info-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 16px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 24px;
+        }
+        
+        .info-box.blue {
+            background: #dbeafe;
+            border-left-color: #2563eb;
+        }
+        
+        .info-box p {
+            color: #92400e;
+            font-size: 14px;
+        }
+        
+        .info-box.blue p {
+            color: #1e40af;
+        }
+        
+        .file-upload {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload:hover {
+            border-color: #2563eb;
+            background: #f9fafb;
+        }
+        
+        .file-upload-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #1a365d 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+        
+        .progress-bar {
+            background: #e5e7eb;
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(135deg, #1a365d 0%, #2563eb 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        @media (max-width: 600px) {
+            .header {
+                padding: 24px;
+            }
+            
+            .form-container {
+                padding: 24px;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Candidatura: AI Engineer Senior</h1>
+            <p>Especialista em RAG Systems & Knowledge Engines</p>
+            <p style="margin-top: 10px; font-size: 14px; opacity: 0.8;">Tempo estimado: 15-20 minutos</p>
+        </div>
+        
+        <div class="form-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+            
+            <form id="applicationForm">
+                
+                <!-- SEÇÃO 1: DADOS PESSOAIS -->
+                <div class="section">
+                    <h2 class="section-title">
+                        <span class="number">1</span>
+                        Dados Pessoais
+                    </h2>
+                    <p class="section-desc">Informações básicas para contato</p>
+                    
+                    <div class="form-group">
+                        <label class="required">Nome completo</label>
+                        <input type="text" name="nome" required placeholder="Seu nome completo">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Email profissional</label>
+                        <input type="email" name="email" required placeholder="seu@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">LinkedIn</label>
+                        <input type="url" name="linkedin" required placeholder="https://linkedin.com/in/seuperfil">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Localização (Cidade, País)</label>
+                        <input type="text" name="localizacao" required placeholder="Ex: São Paulo, Brasil">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Disponibilidade para início</label>
+                        <select name="disponibilidade" required>
+                            <option value="">Selecione...</option>
+                            <option value="imediata">Imediata</option>
+                            <option value="1-2-semanas">1-2 semanas</option>
+                            <option value="2-4-semanas">2-4 semanas</option>
+                            <option value="mais-1-mes">Mais de 1 mês</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- SEÇÃO 2: EXPERIÊNCIA PROFISSIONAL -->
+                <div class="section">
+                    <h2 class="section-title">
+                        <span class="number">2</span>
+                        Experiência Profissional
+                    </h2>
+                    <p class="section-desc">Queremos entender sua trajetória e expertise</p>
+                    
+                    <div class="form-group">
+                        <label class="required">Anos de experiência com desenvolvimento backend Python</label>
+                        <select name="exp_python" required>
+                            <option value="">Selecione...</option>
+                            <option value="menos-1">Menos de 1 ano</option>
+                            <option value="1-2">1-2 anos</option>
+                            <option value="3-5">3-5 anos</option>
+                            <option value="5-7">5-7 anos</option>
+                            <option value="mais-7">Mais de 7 anos</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Quantos sistemas RAG você colocou em produção (com usuários reais)?</label>
+                        <select name="exp_rag" required>
+                            <option value="">Selecione...</option>
+                            <option value="0">Nenhum (apenas estudos/tutoriais)</option>
+                            <option value="1">1 sistema</option>
+                            <option value="2-3">2-3 sistemas</option>
+                            <option value="mais-3">Mais de 3 sistemas</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Experiência com Vector Databases (selecione todas que se aplicam)</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="vdb[]" value="qdrant">
+                                <div class="checkbox-label">
+                                    <strong>Qdrant</strong>
+                                    <span>Obrigatório para este projeto</span>
+                                </div>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="vdb[]" value="pinecone">
+                                <div class="checkbox-label">
+                                    <strong>Pinecone</strong>
+                                </div>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="vdb[]" value="pgvector">
+                                <div class="checkbox-label">
+                                    <strong>pgvector</strong>
+                                </div>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="vdb[]" value="weaviate">
+                                <div class="checkbox-label">
+                                    <strong>Weaviate</strong>
+                                </div>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="vdb[]" value="chroma">
+                                <div class="checkbox-label">
+                                    <strong>Chroma</strong>
+                                </div>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="vdb[]" value="nenhum">
+                                <div class="checkbox-label">
+                                    <strong>Nenhum / Apenas estudei</strong>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Descreva brevemente seu projeto RAG mais relevante</label>
+                        <textarea name="projeto_rag" required placeholder="Inclua: contexto do problema, tecnologias usadas, métricas de resultado (accuracy, latency, etc.), seu papel específico"></textarea>
+                        <p class="hint">Seja específico. Queremos entender o que você construiu, não tutoriais que completou.</p>
+                    </div>
+                </div>
+                
+                <!-- SEÇÃO 3: SKILLS TÉCNICOS -->
+                <div class="section">
+                    <h2 class="section-title">
+                        <span class="number">3</span>
+                        Skills Técnicos
+                    </h2>
+                    <p class="section-desc">Auto-avaliação das tecnologias relevantes</p>
+                    
+                    <div class="info-box blue">
+                        <p>📊 Avalie seu nível de 1 (básico) a 5 (expert) em cada tecnologia</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">FastAPI / APIs REST em Python</label>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="skill_fastapi" value="1" required>
+                                <div class="radio-label-content">1 - Básico</div>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skill_fastapi" value="2">
+                                <div class="radio-label-content">2</div>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skill_fastapi" value="3">
+                                <div class="radio-label-content">3</div>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skill_fastapi" value="4">
+                                <div class="radio-label-content">4</div>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skill_fastapi" value="5">
+                                <div class="radio-label-content">5 - Expert</div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">LangChain / LlamaIndex</label>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="skill_langchain" value="1" required>
+                                <div class="radio-label-content">1 - Básico</div>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skill_langchain" value="2">
+                                <div class="radio-label-content">2</div>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skill_langchain" value="3">
+                                <div class="radio-label-content">3</div>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skill_langchain" value="4">
+                                <div class="radio-label-content">4</div>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skill_langchain" value="5">
+                                <div class="radio-label-content">5 - Expert</div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Prompt Engineering & LLM APIs (OpenAI, Claude, etc.)</label>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="skill_llm" value="1" required>
+                                <div class="radio-label-content">1 - Básico</div>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skill_llm" value="2">
+                                <div class="radio-label-content">2</div>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skill_llm" value="3">
+                                <div class="radio-label-content">3</div>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skill_llm" value="4">
+                                <div class="radio-label-content">4</div>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skill_llm" value="5">
+                                <div class="radio-label-content">5 - Expert</div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Docker & CI/CD</label>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="skill_docker" value="1" required>
+                                <div class="radio-label-content">1 - Básico</div>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skill_docker" value="2">
+                                <div class="radio-label-content">2</div>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skill_docker" value="3">
+                                <div class="radio-label-content">3</div>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skill_docker" value="4">
+                                <div class="radio-label-content">4</div>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skill_docker" value="5">
+                                <div class="radio-label-content">5 - Expert</div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SEÇÃO 4: PORTFÓLIO & LINKS -->
+                <div class="section">
+                    <h2 class="section-title">
+                        <span class="number">4</span>
+                        Portfólio & Links
+                    </h2>
+                    <p class="section-desc">Mostre seu trabalho</p>
+                    
+                    <div class="form-group">
+                        <label class="required">GitHub</label>
+                        <input type="url" name="github" required placeholder="https://github.com/seuperfil">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Projeto(s) live / Demo (se houver)</label>
+                        <input type="url" name="projeto_live" placeholder="URL de algum projeto em produção">
+                        <p class="hint">Pode ser qualquer sistema em funcionamento que demonstre suas habilidades</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Portfolio / Website pessoal</label>
+                        <input type="url" name="portfolio" placeholder="https://seusite.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Upload do CV (PDF)</label>
+                        <div class="file-upload">
+                            <div class="file-upload-icon">📄</div>
+                            <p>Clique ou arraste seu CV aqui</p>
+                            <p class="hint">Formato: PDF, máx 5MB</p>
+                            <input type="file" name="cv" accept=".pdf" required style="opacity: 0; position: absolute;">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SEÇÃO 5: PERFIL COMPORTAMENTAL -->
+                <div class="section">
+                    <h2 class="section-title">
+                        <span class="number">5</span>
+                        Perfil Comportamental
+                    </h2>
+                    <p class="section-desc">Usamos DISC, MBTI e Eneagrama para entender seu estilo de trabalho</p>
+                    
+                    <div class="info-box">
+                        <p>⚠️ Para responder estas perguntas, faça os testes gratuitos nos links abaixo e cole apenas o resultado:</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Resultado DISC</label>
+                        <input type="text" name="disc" placeholder="Ex: DI, SC, CD, etc.">
+                        <p class="hint">Faça o teste em: <a href="https://www.123test.com/disc-personality-test/" target="_blank">123test.com/disc</a></p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Resultado MBTI (16 Personalities)</label>
+                        <input type="text" name="mbti" placeholder="Ex: INTJ, ENFP, ISTP, etc.">
+                        <p class="hint">Faça o teste em: <a href="https://www.16personalities.com/br" target="_blank">16personalities.com</a></p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Resultado Eneagrama</label>
+                        <input type="text" name="eneagrama" placeholder="Ex: Tipo 5, Tipo 3w4, etc.">
+                        <p class="hint">Faça o teste em: <a href="https://www.truity.com/test/enneagram-personality-test" target="_blank">truity.com/enneagram</a></p>
+                    </div>
+                </div>
+                
+                <!-- SEÇÃO 6: PERGUNTAS ABERTAS -->
+                <div class="section">
+                    <h2 class="section-title">
+                        <span class="number">6</span>
+                        Perguntas Técnicas & Situacionais
+                    </h2>
+                    <p class="section-desc">Aqui avaliamos seu pensamento técnico e abordagem de problemas</p>
+                    
+                    <div class="form-group">
+                        <label class="required">Como você faria o chunking de uma transcrição de call de vendas de 45 minutos para otimizar o retrieval?</label>
+                        <textarea name="pergunta_chunking" required placeholder="Descreva sua abordagem: considere speakers, timestamps, sobreposição, tamanho de chunks, etc."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Seu sistema RAG está retornando documentos relevantes, mas as respostas do LLM estão erradas. Como você debugaria isso?</label>
+                        <textarea name="pergunta_debug" required placeholder="Descreva sua abordagem sistemática de investigação"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Como você avalia qualidade em sistemas RAG? Quais métricas usa e por quê?</label>
+                        <textarea name="pergunta_eval" required placeholder="Mencione métricas específicas e como você as aplicaria neste projeto"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Conte sobre um projeto que falhou ou underperformou. O que deu errado e o que aprendeu?</label>
+                        <textarea name="pergunta_falha" required placeholder="Seja honesto. Queremos ver reflexão e aprendizado, não perfeição."></textarea>
+                    </div>
+                </div>
+                
+                <!-- SEÇÃO 7: EXPECTATIVAS -->
+                <div class="section">
+                    <h2 class="section-title">
+                        <span class="number">7</span>
+                        Expectativas & Fit
+                    </h2>
+                    <p class="section-desc">Últimos detalhes para garantir alinhamento</p>
+                    
+                    <div class="form-group">
+                        <label class="required">Taxa horária pretendida (USD)</label>
+                        <select name="taxa" required>
+                            <option value="">Selecione...</option>
+                            <option value="abaixo-75">Abaixo de $75/hora</option>
+                            <option value="75-100">$75-100/hora</option>
+                            <option value="100-125">$100-125/hora</option>
+                            <option value="acima-125">Acima de $125/hora</option>
+                        </select>
+                        <p class="hint">O range do projeto é $75-125/hora</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Horas disponíveis por semana para este projeto</label>
+                        <select name="horas_semana" required>
+                            <option value="">Selecione...</option>
+                            <option value="10-20">10-20 horas</option>
+                            <option value="20-30">20-30 horas</option>
+                            <option value="30-40">30-40 horas (dedicação principal)</option>
+                            <option value="full-time">40+ horas (full-time)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Alguma pergunta sobre o projeto ou algo que gostaria de adicionar?</label>
+                        <textarea name="comentarios" placeholder="Perguntas, considerações, ou qualquer informação adicional relevante"></textarea>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    Enviar Candidatura 🚀
+                </button>
+                
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Progress bar update
+        const form = document.getElementById('applicationForm');
+        const progress = document.getElementById('progress');
+        const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+        
+        function updateProgress() {
+            const filled = Array.from(inputs).filter(input => {
+                if (input.type === 'radio') {
+                    return form.querySelector(`input[name="${input.name}"]:checked`);
+                }
+                return input.value.trim() !== '';
+            }).length;
+            
+            const uniqueNames = new Set(Array.from(inputs).map(i => i.name));
+            const percentage = (filled / uniqueNames.size) * 100;
+            progress.style.width = percentage + '%';
+        }
+        
+        inputs.forEach(input => {
+            input.addEventListener('change', updateProgress);
+            input.addEventListener('input', updateProgress);
+        });
+        
+        // Form submission
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Candidatura enviada com sucesso! Entraremos em contato em até 5 dias úteis.');
+        });
+    </script>
+</body>
+</html>

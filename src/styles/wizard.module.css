@@ -1,0 +1,96 @@
+/* Wizard styles - Progress bar, Navigation, Wizard Container */
+
+.progressBar {
+  background: #e5e7eb;
+  height: 8px;
+  border-radius: 4px;
+  margin-bottom: 40px;
+  overflow: hidden;
+}
+
+.progressFill {
+  background: linear-gradient(135deg, #1a365d 0%, #2563eb 100%);
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.navigation {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.navButton {
+  flex: 1;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.navButtonPrimary {
+  background: linear-gradient(135deg, #1a365d 0%, #2563eb 100%);
+  color: white;
+}
+
+.navButtonPrimary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+}
+
+.navButtonPrimary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.navButtonSecondary {
+  background: white;
+  color: #2563eb;
+  border: 2px solid #2563eb;
+}
+
+.navButtonSecondary:hover {
+  background: #eff6ff;
+}
+
+.loadingSpinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Step transition animations */
+.stepEnter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.stepEnterActive {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 300ms ease;
+}
+
+.stepExit {
+  opacity: 1;
+}
+
+.stepExitActive {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 300ms ease;
+}

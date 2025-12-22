@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interesse - AI Engineer (RAG Systems)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a365d 0%, #2563eb 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 16px 16px 0 0;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 15px;
+        }
+        
+        .header .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-top: 15px;
+        }
+        
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 0 0 16px 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .intro-box {
+            background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .intro-box h3 {
+            color: #1e40af;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .intro-box p {
+            color: #3730a3;
+            font-size: 14px;
+        }
+        
+        .section {
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .section-title {
+            color: #1a365d;
+            font-size: 18px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title .number {
+            background: #2563eb;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        
+        .section-desc {
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        
+        .required::after {
+            content: ' *';
+            color: #ef4444;
+        }
+        
+        .optional {
+            color: #9ca3af;
+            font-weight: normal;
+            font-size: 12px;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="url"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .hint {
+            color: #6b7280;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .checkbox-item:hover {
+            background: #f3f4f6;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .radio-item {
+            flex: 1;
+            min-width: 80px;
+            padding: 12px 8px;
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 13px;
+        }
+        
+        .radio-item:hover {
+            border-color: #2563eb;
+        }
+        
+        .radio-item input {
+            display: none;
+        }
+        
+        .radio-item:has(input:checked) {
+            border-color: #2563eb;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-weight: 600;
+        }
+        
+        .encouragement-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 14px 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+        }
+        
+        .encouragement-box p {
+            color: #92400e;
+            font-size: 13px;
+        }
+        
+        .file-upload {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .file-upload:hover {
+            border-color: #2563eb;
+            background: #f9fafb;
+        }
+        
+        .file-upload input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #1a365d 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+        
+        .final-note {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0fdf4;
+            border-radius: 8px;
+            color: #166534;
+            font-size: 13px;
+        }
+        
+        @media (max-width: 600px) {
+            .header {
+                padding: 24px;
+            }
+            
+            .form-container {
+                padding: 24px;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+            }
+            
+            .radio-item {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 AI Engineer - RAG Systems</h1>
+            <p>Formulário de Interesse</p>
+            <div class="badge">⏱️ ~10 minutos para preencher</div>
+        </div>
+        
+        <div class="form-container">
+            
+            <div class="intro-box">
+                <h3>💡 Antes de começar</h3>
+                <p>Este formulário é para conhecer você melhor. Não existe resposta certa ou errada — seja honesto(a) sobre sua experiência. Estou buscando alguém com base sólida em Python e vontade de crescer, não necessariamente um expert em RAG.</p>
+            </div>
+            
+            <form id="applicationForm">
+                
+                <!-- SEÇÃO 1: DADOS BÁSICOS -->
+                <div class="section">
+                    <h2 class="section-title">
+                        <span class="number">1</span>
+                        Dados Básicos
+                    </h2>
+                    <p class="section-desc">Para entrar em contato com você</p>
+                    
+                    <div class="form-group">
+                        <label class="required">Nome completo</label>
+                        <input type="text" name="nome" required placeholder="Seu nome">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Email</label>
+                        <input type="email" name="email" required placeholder="seu@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>WhatsApp <span class="optional">(opcional)</span></label>
+                        <input type="tel" name="whatsapp" placeholder="+55 (11) 99999-9999">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">LinkedIn</label>
+                        <input type="url" name="linkedin" required placeholder="https://linkedin.com/in/seuperfil">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Cidade/País</label>
+                        <input type="text" name="localizacao" required placeholder="Ex: São Paulo, Brasil">
+                    </div>
+                </div>
+                
+                <!-- SEÇÃO 2: EXPERIÊNCIA -->
+                <div class="section">
+                    <h2 class="section-title">
+                        <span class="number">2</span>
+                        Sua Experiência
+                    </h2>
+                    <p class="section-desc">Queremos entender seu momento profissional</p>
+                    
+                    <div class="form-group">
+                        <label class="required">Há quanto tempo trabalha com Python profissionalmente?</label>
+                        <select name="exp_python" required>
+                            <option value="">Selecione...</option>
+                            <option value="menos-1">Menos de 1 ano</option>
+                            <option value="1-2">1-2 anos</option>
+                            <option value="2-3">2-3 anos</option>
+                            <option value="3-5">3-5 anos</option>
+                            <option value="mais-5">Mais de 5 anos</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Qual seu nível de experiência com LLMs/LangChain?</label>
+                        <select name="exp_llm" required>
+                            <option value="">Selecione...</option>
+                            <option value="nenhuma">Nunca mexi, mas tenho interesse</option>
+                            <option value="tutoriais">Fiz alguns tutoriais/experimentos</option>
+                            <option value="projetos-pessoais">Construí projetos pessoais</option>
+                            <option value="profissional">Já usei em contexto profissional</option>
+                            <option value="producao">Já coloquei sistemas em produção</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Você sabe o que é RAG (Retrieval-Augmented Generation)?</label>
+                        <select name="conhece_rag" required>
+                            <option value="">Selecione...</option>
+                            <option value="nao">Não sei o que é</option>
+                            <option value="conceito">Entendo o conceito mas nunca implementei</option>
+                            <option value="basico">Já implementei algo básico</option>
+                            <option value="intermediario">Tenho experiência implementando RAG</option>
+                            <option value="avancado">Já trabalhei com técnicas avançadas (HyDE, Reranking, etc)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tecnologias que você já usou <span class="optional">(marque todas que se aplicam)</span></label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="techs[]" value="fastapi">
+                                FastAPI / Flask / Django
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="techs[]" value="langchain">
+                                LangChain / LlamaIndex
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="techs[]" value="openai">
+                                OpenAI API / Claude API
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="techs[]" value="vectordb">
+                                Vector DBs (Qdrant, Pinecone, pgvector, Chroma)
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="techs[]" value="docker">
+                                Docker
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="techs[]" value="langgraph">
+                                LangGraph / Agentes
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SEÇÃO 3: LINKS -->
+                <div class="section">
+                    <h2 class="section-title">
+                        <span class="number">3</span>
+                        Portfolio & Links
+                    </h2>
+                    <p class="section-desc">Mostre seu trabalho</p>
+                    
+                    <div class="form-group">
+                        <label class="required">GitHub</label>
+                        <input type="url" name="github" required placeholder="https://github.com/seuperfil">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Projeto relevante <span class="optional">(link ou descrição)</span></label>
+                        <textarea name="projeto" placeholder="Pode ser um repo do GitHub, um projeto live, ou uma descrição de algo que construiu. Não precisa ser relacionado a IA."></textarea>
+                        <p class="hint">Queremos ver código seu, independente do domínio</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>CV/Currículo <span class="optional">(PDF)</span></label>
+                        <div class="file-upload">
+                            <div style="font-size: 30px; margin-bottom: 8px;">📄</div>
+                            <p style="margin: 0; color: #6b7280;">Clique ou arraste seu CV aqui</p>
+                            <p class="hint">Opcional, mas ajuda a conhecer sua trajetória</p>
+                            <input type="file" name="cv" accept=".pdf">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SEÇÃO 4: PERFIL COMPORTAMENTAL -->
+                <div class="section">
+                    <h2 class="section-title">
+                        <span class="number">4</span>
+                        Seu Perfil
+                    </h2>
+                    <p class="section-desc">Ajuda a entender como você trabalha (opcional, mas valorizado)</p>
+                    
+                    <div class="form-group">
+                        <label>MBTI (16 Personalities) <span class="optional">(opcional)</span></label>
+                        <input type="text" name="mbti" placeholder="Ex: INTJ, ENFP, ISTP...">
+                        <p class="hint">Teste em: <a href="https://www.16personalities.com/br" target="_blank">16personalities.com</a></p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>DISC <span class="optional">(opcional)</span></label>
+                        <input type="text" name="disc" placeholder="Ex: DI, SC, CD...">
+                        <p class="hint">Teste em: <a href="https://www.123test.com/disc-personality-test/" target="_blank">123test.com/disc</a></p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Eneagrama <span class="optional">(opcional)</span></label>
+                        <input type="text" name="eneagrama" placeholder="Ex: Tipo 5, Tipo 3w4...">
+                        <p class="hint">Teste em: <a href="https://www.truity.com/test/enneagram-personality-test" target="_blank">truity.com</a></p>
+                    </div>
+                </div>
+                
+                <!-- SEÇÃO 5: PERGUNTAS -->
+                <div class="section">
+                    <h2 class="section-title">
+                        <span class="number">5</span>
+                        Algumas Perguntas
+                    </h2>
+                    <p class="section-desc">Responda com honestidade — não existe resposta certa</p>
+                    
+                    <div class="form-group">
+                        <label class="required">Por que essa oportunidade te interessou?</label>
+                        <textarea name="motivacao" required placeholder="Pode ser breve. O que te chamou atenção?"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Como você lida quando precisa aprender uma tecnologia nova para entregar algo?</label>
+                        <textarea name="aprendizado" required placeholder="Descreva sua abordagem. Documentação? Tutoriais? Tentativa e erro?"></textarea>
+                        <p class="hint">Neste projeto você vai precisar aprender coisas novas na prática</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Descreva brevemente um problema técnico difícil que você resolveu <span class="optional">(opcional mas valorizado)</span></label>
+                        <textarea name="problema_resolvido" placeholder="Não precisa ser sobre IA. Queremos ver como você pensa."></textarea>
+                    </div>
+                </div>
+                
+                <!-- SEÇÃO 6: DISPONIBILIDADE -->
+                <div class="section">
+                    <h2 class="section-title">
+                        <span class="number">6</span>
+                        Disponibilidade
+                    </h2>
+                    <p class="section-desc">Para alinhar expectativas</p>
+                    
+                    <div class="form-group">
+                        <label class="required">Quantas horas por semana você poderia dedicar?</label>
+                        <select name="horas_semana" required>
+                            <option value="">Selecione...</option>
+                            <option value="10-15">10-15 horas</option>
+                            <option value="15-25">15-25 horas</option>
+                            <option value="25-35">25-35 horas</option>
+                            <option value="35+">35+ horas (dedicação principal)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Disponibilidade para início</label>
+                        <select name="disponibilidade" required>
+                            <option value="">Selecione...</option>
+                            <option value="imediata">Imediata</option>
+                            <option value="1-2-semanas">1-2 semanas</option>
+                            <option value="2-4-semanas">2-4 semanas</option>
+                            <option value="mais-1-mes">Mais de 1 mês</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Pretensão de taxa horária (USD) <span class="optional">(opcional)</span></label>
+                        <input type="text" name="taxa" placeholder="Ex: $30-40/hora">
+                        <p class="hint">Podemos discutir isso depois, mas ajuda a alinhar expectativas</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Alguma pergunta ou comentário?</label>
+                        <textarea name="comentarios" placeholder="Dúvidas sobre o projeto, informações adicionais que queira compartilhar..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="encouragement-box">
+                    <p>💪 <strong>Lembre-se:</strong> não precisa ter experiência completa em tudo. Se você manja de Python e tem vontade de crescer na área, se candidate!</p>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    Enviar meu interesse 🚀
+                </button>
+                
+                <div class="final-note">
+                    ✅ Entro em contato em até 5 dias úteis. Mesmo que não seja para essa vaga, posso ter outras oportunidades no futuro!
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        const form = document.getElementById('applicationForm');
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Interesse registrado com sucesso! ✅\n\nEntro em contato em breve.');
+        });
+        
+        // File upload visual feedback
+        const fileInput = document.querySelector('input[type="file"]');
+        const fileUpload = document.querySelector('.file-upload');
+        
+        if (fileInput && fileUpload) {
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    fileUpload.querySelector('p').textContent = '✅ ' + this.files[0].name;
+                    fileUpload.style.borderColor = '#22c55e';
+                    fileUpload.style.background = '#f0fdf4';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

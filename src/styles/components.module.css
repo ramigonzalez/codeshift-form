@@ -1,0 +1,191 @@
+/* Component styles - Input, Select, Textarea, FileUpload, Checkbox, Radio, PhoneInput */
+
+/* Text Inputs, Select, Textarea */
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+/* PhoneInput - International phone input with country selector */
+.phoneInput {
+  width: 100%;
+}
+
+.phoneInput input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.phoneInput input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.phoneInput.error input {
+  border-color: #ef4444;
+}
+
+.phoneInput select {
+  margin-right: 8px;
+  padding: 12px 14px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.input.error,
+.select.error,
+.textarea.error {
+  border-color: #ef4444;
+}
+
+.select:disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Checkbox Group */
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.checkboxItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.checkboxItem:hover {
+  background: #f3f4f6;
+}
+
+.checkboxItem input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* Radio Group */
+.radioGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.radioItem {
+  flex: 1;
+  min-width: 80px;
+  padding: 12px 8px;
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+}
+
+.radioItem:hover {
+  border-color: #2563eb;
+}
+
+.radioItem input {
+  display: none;
+}
+
+.radioItem.checked {
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+/* File Upload */
+.fileUpload {
+  border: 2px dashed #d1d5db;
+  border-radius: 8px;
+  padding: 25px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.fileUpload:hover {
+  border-color: #2563eb;
+  background: #f9fafb;
+}
+
+.fileUpload input[type="file"] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.fileUploadIcon {
+  font-size: 30px;
+  margin-bottom: 8px;
+}
+
+.fileUploadText {
+  margin: 0;
+  color: #6b7280;
+}
+
+.fileUploadSelected {
+  border-color: #22c55e;
+  background: #f0fdf4;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .radioGroup {
+    flex-direction: column;
+  }
+
+  .radioItem {
+    min-width: 100%;
+  }
+}

@@ -1,0 +1,160 @@
+/* Layout styles - Header, Container, Sections, Info Boxes */
+
+.container {
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.header {
+  background: linear-gradient(135deg, #1a365d 0%, #2563eb 100%);
+  color: white;
+  padding: 40px;
+  border-radius: 16px 16px 0 0;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+.header p {
+  opacity: 0.9;
+  font-size: 15px;
+}
+
+.header .badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  margin-top: 15px;
+}
+
+.formContainer {
+  background: white;
+  padding: 40px;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.introBox {
+  background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.introBox h3 {
+  color: #1e40af;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.introBox p {
+  color: #3730a3;
+  font-size: 14px;
+}
+
+.section {
+  margin-bottom: 35px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.sectionTitle {
+  color: #1a365d;
+  font-size: 18px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sectionTitle .number {
+  background: #2563eb;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.sectionDesc {
+  color: #6b7280;
+  font-size: 13px;
+  margin-bottom: 18px;
+}
+
+.encouragementBox {
+  background: #fef3c7;
+  border-left: 4px solid #f59e0b;
+  padding: 14px 16px;
+  border-radius: 0 8px 8px 0;
+  margin: 20px 0;
+}
+
+.encouragementBox p {
+  color: #92400e;
+  font-size: 13px;
+}
+
+.infoBox {
+  background: #dbeafe;
+  border-left: 4px solid #2563eb;
+  padding: 14px 16px;
+  border-radius: 0 8px 8px 0;
+  margin: 20px 0;
+}
+
+.infoBox p {
+  color: #1e40af;
+  font-size: 13px;
+}
+
+.finalNote {
+  text-align: center;
+  margin-top: 20px;
+  padding: 15px;
+  background: #f0fdf4;
+  border-radius: 8px;
+  color: #166534;
+  font-size: 13px;
+}
+
+.successBox {
+  background: #f0fdf4;
+  border: 2px solid #10b981;
+  border-radius: 12px;
+  padding: 30px;
+  margin: 20px 0;
+}
+
+.errorBox {
+  background: #fef2f2;
+  border: 2px solid #ef4444;
+  border-radius: 12px;
+  padding: 30px;
+  margin: 20px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .header {
+    padding: 24px;
+  }
+
+  .formContainer {
+    padding: 24px;
+  }
+}

@@ -1,0 +1,37 @@
+/* Form styles - Form groups, labels, hints, required marker */
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  color: #374151;
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.required::after {
+  content: ' *';
+  color: #ef4444;
+}
+
+.optional {
+  color: #9ca3af;
+  font-weight: normal;
+  font-size: 12px;
+}
+
+.hint {
+  color: #6b7280;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.error {
+  color: #ef4444;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
