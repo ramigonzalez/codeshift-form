@@ -42,21 +42,22 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
           {label}
         </label>
 
-        {/* Warning banner for previously uploaded file */}
+        {/* Info banner for previously uploaded file */}
         {hasRestoredMetadata && savedMetadata && (
           <div style={{
-            padding: '8px 12px',
-            marginBottom: '8px',
-            backgroundColor: '#fff3cd',
-            border: '1px solid #ffc107',
-            borderRadius: '4px',
-            fontSize: '14px',
-            color: '#856404'
+            background: '#dbeafe',
+            borderLeft: '4px solid #2563eb',
+            padding: '14px 16px',
+            borderRadius: '0 8px 8px 0',
+            marginBottom: '12px'
           }}>
-            ⚠️ Arquivo anterior: <strong>{savedMetadata.filename}</strong>
-            {' '}({(savedMetadata.size / 1024).toFixed(1)} KB)
-            <br />
-            <em>Por favor, faça upload novamente - arquivos não podem ser salvos automaticamente</em>
+            <p style={{ margin: 0, fontSize: '13px', lineHeight: '1.5', color: '#1e40af' }}>
+              <strong>📄 Arquivo detectado:</strong> {savedMetadata.filename} ({(savedMetadata.size / 1024).toFixed(1)} KB)
+              <br />
+              <span style={{ fontSize: '12px', opacity: 0.9 }}>
+                Detectamos que você já havia enviado este arquivo. Por favor, faça o upload novamente para continuar.
+              </span>
+            </p>
           </div>
         )}
 
@@ -66,13 +67,13 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
           }`}
         >
           <div className={styles.fileUploadIcon}>
-            {selectedFile ? '✅' : hasRestoredMetadata ? '⚠️' : '📄'}
+            {selectedFile ? '✅' : hasRestoredMetadata ? '📄' : '📄'}
           </div>
           <p className={styles.fileUploadText}>
             {selectedFile
-              ? selectedFile.name
+              ? `✅ ${selectedFile.name}`
               : hasRestoredMetadata && savedMetadata
-              ? `Reenvie: ${savedMetadata.filename}`
+              ? `Clique para reenviar: ${savedMetadata.filename}`
               : 'Clique ou arraste seu CV aqui'}
           </p>
           {hint && !selectedFile && !hasRestoredMetadata && <p className={formStyles.hint}>{hint}</p>}

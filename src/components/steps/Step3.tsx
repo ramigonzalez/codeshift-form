@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import { UseFormRegister, FieldErrors, UseFormWatch } from 'react-hook-form';
-import { Input, Textarea } from '../common';
-import { shouldShowTechnicalQuestions, FormData } from '../../types/application';
+import { FieldErrors, UseFormRegister, UseFormWatch } from 'react-hook-form';
 import layoutStyles from '../../styles/layout.module.css';
+import { FormData, shouldShowTechnicalQuestions } from '../../types/application';
+import { Input, Textarea } from '../common';
 
 interface Step3Props {
   register: UseFormRegister<FormData>;
@@ -38,7 +38,7 @@ export const Step3 = ({ register, errors, watch }: Step3Props) => {
           label="DISC"
           {...register('disc')}
           error={errors.disc?.message}
-          placeholder="Ex: DI, SC, CD..."
+          placeholder="Ex: DI, SC, CD"
           hint="Teste em: 123test.com/disc-personality-test"
         />
 
@@ -46,7 +46,7 @@ export const Step3 = ({ register, errors, watch }: Step3Props) => {
           label="Eneagrama"
           {...register('eneagrama')}
           error={errors.eneagrama?.message}
-          placeholder="Ex: Tipo 5, Tipo 3w4..."
+          placeholder="Ex: 5, 3w4, 7w6, etc..."
           hint="Teste em: truity.com/test/enneagram-personality-test"
         />
       </div>

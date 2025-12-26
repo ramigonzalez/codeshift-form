@@ -1,7 +1,7 @@
-import { UseFormRegister, FieldErrors } from 'react-hook-form';
-import { Select, Input, Textarea } from '../common';
-import { FormData } from '../../types/application';
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import layoutStyles from '../../styles/layout.module.css';
+import { FormData } from '../../types/application';
+import { Input, Select, Textarea } from '../common';
 
 interface Step4Props {
   register: UseFormRegister<FormData>;
@@ -44,12 +44,11 @@ export const Step4 = ({ register, errors }: Step4Props) => {
       />
 
       <Input
-        label="Pretensão de taxa horária (USD)"
+        label="Tarifa por hora (USD - Dolares americanos)"
         required
         {...register('taxa')}
         error={errors.taxa?.message}
-        placeholder="Ex: $30-40/hora"
-        hint="Formato flexível: $50, $50.00, $30-40/hora, ou $1,500.00"
+        placeholder="Apenas números"
       />
 
       <Textarea

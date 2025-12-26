@@ -128,8 +128,15 @@ export const step3Schema = z.object({
     .optional()
     .or(z.literal(''))
     .refine(
-      (val) => !val || (/^[DISC]+$/.test(val) && val.length >= 1 && val.length <= 4),
-      'DISC inválido - use 1-4 letras: D, I, S, C (ex: D, DI, ISC)'
+      (val) => {
+        if (!val) return true;
+        // Must be exactly 2 letters, only D, I, S, C, and not repeated
+        if (val.length !== 2) return false;
+        if (!/^[DISC]{2}$/.test(val)) return false;
+        // Check that letters are not repeated
+        return val[0] !== val[1];
+      },
+      'DISC inválido - use exatamente 2 letras não repetidas: D, I, S, C (ex: DI, SC, CD)'
     ),
 
   eneagrama: z.string()
@@ -233,18 +240,12 @@ export const step4Schema = z.object({
   taxa: z.string()
     .min(1, 'Taxa horária é obrigatória')
     .refine(
-      (val) => /^\$\s?\d{1,3}(,\d{3})*(\.\d{2})?(-\$?\s?\d{1,3}(,\d{3})*(\.\d{2})?)?(\/hora|\/h)?$/i.test(val),
-      'Taxa inválida - use formato USD: $50, $50.00, $30-40/hora, ou $1,500.00'
+      (val) => /^\d+(\.\d{1,2})?$/.test(val),
+      'Taxa inválida - insira apenas números (ex: 50 ou 50.00)'
     )
     .refine(
       (val) => {
-        // Extract first number from formats like "$50", "$30-40", "$1,500.00"
-        const match = val.match(/^\$\s?(\d{1,3}(?:,\d{3})*)(?:\.\d{2})?/);
-        if (!match) return false;
-
-        // Remove commas and parse as number
-        const numValue = parseFloat(match[1].replace(/,/g, ''));
-
+        const numValue = parseFloat(val);
         // Reasonable hourly rate range: $5 to $999
         return numValue >= 5 && numValue <= 999;
       },
