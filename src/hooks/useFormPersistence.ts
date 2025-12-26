@@ -35,6 +35,11 @@ export const useFormPersistence = ({ watch, setValue }: UseFormPersistenceProps)
             }
           }
         });
+
+        // IMPORTANT: Explicitly clear the CV field since files can't be restored from localStorage
+        // Even if cv_metadata exists, the actual file is lost after refresh
+        // This ensures validation will correctly detect that the file is missing
+        setValue('cv', undefined, { shouldValidate: false });
       }
     } catch (error) {
       console.error('Failed to restore form data:', error);

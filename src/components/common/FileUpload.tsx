@@ -1,7 +1,7 @@
-import { forwardRef, InputHTMLAttributes, useState, ChangeEvent, useEffect } from 'react';
-import { CVMetadata } from '../../types/application';
+import { ChangeEvent, forwardRef, InputHTMLAttributes, useEffect, useState } from 'react';
 import styles from '../../styles/components.module.css';
 import formStyles from '../../styles/form.module.css';
+import { CVMetadata } from '../../types/application';
 
 interface FileUploadProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   label: string;

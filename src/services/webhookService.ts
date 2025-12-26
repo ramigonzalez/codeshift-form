@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios';
 import { FormData } from '../types/application';
 
 const WEBHOOK_URL = import.meta.env.VITE_WEBHOOK_URL || '';
-const N8N_FORM_ACCESS_TOKEN = import.meta.env.N8N_FORM_ACCESS_TOKEN || '';
+const N8N_FORM_ACCESS_TOKEN = import.meta.env.VITE_N8N_FORM_ACCESS_TOKEN || '';
 
 const MAX_RETRIES = 3;
 const INITIAL_RETRY_DELAY = 1000; // 1 second
@@ -104,7 +104,7 @@ export const submitToWebhook = async (
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     try {
       if (!N8N_FORM_ACCESS_TOKEN) {
-        console.error('N8N_FORM_ACCESS_TOKEN not configured');
+        console.error('VITE_N8N_FORM_ACCESS_TOKEN not configured');
         return {
           success: false,
           error: 'n8n access token not configured. Please contact support.',
