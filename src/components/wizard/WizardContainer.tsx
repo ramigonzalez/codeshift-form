@@ -7,10 +7,11 @@ interface WizardContainerProps {
   children: (currentStep: number) => ReactNode;
   onSubmit: () => void;
   onValidateStep?: (step: number) => Promise<boolean>;
+  onValidateAllSteps?: () => Promise<boolean>;
   isSubmitting?: boolean;
 }
 
-export const WizardContainer = ({ children, onSubmit, onValidateStep, isSubmitting = false }: WizardContainerProps) => {
+export const WizardContainer = ({ children, onSubmit, onValidateStep, onValidateAllSteps, isSubmitting = false }: WizardContainerProps) => {
   const { currentStep, isFirstStep, isLastStep, nextStep, previousStep, progress } = useWizard(4);
   const [isValidating, setIsValidating] = useState(false);
 
@@ -29,14 +30,23 @@ export const WizardContainer = ({ children, onSubmit, onValidateStep, isSubmitti
   };
 
   const handleSubmit = async () => {
-    // Validate Step 4 before submitting
-    if (onValidateStep) {
+    // Validate all steps before submitting to ensure entire form is valid
+    if (onValidateAllSteps) {
+      setIsValidating(true);
+      const isValid = await onValidateAllSteps();
+      setIsValidating(false);
+
+      if (isValid) {
+        onSubmit();  // Only submit if all steps validation passes
+      }
+    } else if (onValidateStep) {
+      // Fallback: validate only current step if onValidateAllSteps not provided
       setIsValidating(true);
       const isValid = await onValidateStep(currentStep);
       setIsValidating(false);
 
       if (isValid) {
-        onSubmit();  // Only submit if Step 4 validation passes
+        onSubmit();
       }
     } else {
       onSubmit();  // Fallback if no validation function provided

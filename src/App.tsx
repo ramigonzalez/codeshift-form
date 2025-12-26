@@ -116,6 +116,69 @@ function App() {
     return isValid;
   };
 
+  const handleValidateAllSteps = async (): Promise<boolean> => {
+    // Clear all validation errors before validating all steps
+    clearErrors();
+    setValidationErrors({});
+
+    // Get current form values
+    const formData = getValues();
+
+    // Validate all steps sequentially
+    const allErrors: Record<string, string> = {};
+    let allStepsValid = true;
+
+    for (let step = 1; step <= 4; step++) {
+      const { isValid, errors: stepErrors } = await validateStep(step, formData);
+      
+      if (!isValid && stepErrors) {
+        allStepsValid = false;
+        Object.assign(allErrors, stepErrors);
+      }
+    }
+
+    if (!allStepsValid && Object.keys(allErrors).length > 0) {
+      const errorMessages = Object.values(allErrors);
+      const errorCount = errorMessages.length;
+
+      // Show toast notification with error summary
+      if (errorCount === 1) {
+        toast.error(errorMessages[0] || 'Por favor, corrija o erro no formulário');
+      } else {
+        toast.error(`${errorCount} campos precisam ser corrigidos. Por favor, revise o formulário.`);
+      }
+
+      // Set all errors at once
+      setValidationErrors(allErrors);
+      
+      Object.entries(allErrors).forEach(([field, message]) => {
+        setError(field as keyof FormData, {
+          type: 'manual',
+          message: message as string,
+        }, { shouldFocus: false });
+      });
+
+      // Scroll to first error and focus it
+      const firstErrorField = Object.keys(allErrors)[0];
+      if (firstErrorField) {
+        setTimeout(() => {
+          const element = document.getElementsByName(firstErrorField)[0];
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Focus element for accessibility
+            if (element instanceof HTMLElement) {
+              element.focus();
+            }
+          } else {
+            console.warn(`[VALIDATION] Could not find element with name="${firstErrorField}"`);
+          }
+        }, 100);
+      }
+    }
+
+    return allStepsValid;
+  };
+
   const onSubmit = handleSubmit(async (data) => {
     setSubmissionStatus('submitting');
     setSubmissionError('');
@@ -175,6 +238,7 @@ function App() {
       <WizardContainer
         onSubmit={onSubmit}
         onValidateStep={handleValidateStep}
+        onValidateAllSteps={handleValidateAllSteps}
         isSubmitting={submissionStatus === 'submitting'}
       >
         {renderStep}
