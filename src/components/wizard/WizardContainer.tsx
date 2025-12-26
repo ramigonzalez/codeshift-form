@@ -15,15 +15,9 @@ export const WizardContainer = ({ children, onSubmit, onValidateStep, isSubmitti
   const [isValidating, setIsValidating] = useState(false);
 
   const handleNext = async () => {
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/ce68e963-6408-408e-ae46-387ce13d212d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'WizardContainer.tsx:17',message:'handleNext called',data:{currentStep:currentStep,hasOnValidateStep:!!onValidateStep},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
-    // #endregion
     if (onValidateStep) {
       setIsValidating(true);
       const isValid = await onValidateStep(currentStep);
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/ce68e963-6408-408e-ae46-387ce13d212d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'WizardContainer.tsx:21',message:'Validation result in handleNext',data:{isValid:isValid,currentStep:currentStep},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
-      // #endregion
       setIsValidating(false);
 
       if (isValid) {

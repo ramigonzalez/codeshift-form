@@ -109,7 +109,6 @@ export const submitToWebhook = async (
       });
 
       if (response.status >= 200 && response.status < 300) {
-        console.log('Form submitted successfully:', response.data);
         return {
           success: true,
           retries: attempt,
@@ -118,7 +117,6 @@ export const submitToWebhook = async (
     } catch (error) {
       const axiosError = error as AxiosError;
 
-      // Log the attempt
       console.error(`Submission attempt ${attempt + 1} failed:`, axiosError.message);
 
       // Determine if we should retry
@@ -131,7 +129,6 @@ export const submitToWebhook = async (
 
       // Calculate exponential backoff delay
       const retryDelay = INITIAL_RETRY_DELAY * Math.pow(2, attempt);
-      console.log(`Retrying in ${retryDelay}ms...`);
       await delay(retryDelay);
     }
   }

@@ -69,8 +69,6 @@ export const validateStep = async (
   formData: Partial<FormData>
 ): Promise<{ isValid: boolean; errors?: Record<string, string> }> => {
   try {
-    console.log(`[STEP_VALIDATION] Validating step ${step}`);
-
     const schema = getStepSchema(step, formData);
     const stepFields = getStepFields(step);
 
@@ -81,23 +79,9 @@ export const validateStep = async (
       return acc;
     }, {} as any);
 
-    console.log('[STEP_VALIDATION] Step data to validate:', {
-      step,
-      fields: stepFields,
-      data: {
-        ...stepData,
-        cv: stepData.cv instanceof FileList
-          ? `FileList(${stepData.cv.length})`
-          : stepData.cv instanceof File
-          ? `File: ${stepData.cv.name}`
-          : stepData.cv,
-      },
-    });
-
     // Validate the step data - use safeParseAsync to handle errors better
     const result = await schema.safeParseAsync(stepData);
     if (result.success) {
-      console.log(`[STEP_VALIDATION] Step ${step} validation passed`);
       return { isValid: true };
     } else {
       // Handle validation errors from Zod
@@ -105,9 +89,7 @@ export const validateStep = async (
       result.error.issues.forEach((issue) => {
         const field = issue.path && issue.path.length > 0 ? issue.path.join('.') : 'unknown';
         errors[field] = issue.message || 'Validation error';
-        console.log(`[STEP_VALIDATION] Error on field "${field}": ${issue.message}`);
       });
-      console.log('[STEP_VALIDATION] Returning errors:', errors);
       return { isValid: false, errors };
     }
   } catch (error: any) {

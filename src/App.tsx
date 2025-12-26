@@ -51,11 +51,6 @@ function App() {
   const { clearSavedData } = useFormPersistence({ watch, setValue });
 
   const handleValidateStep = async (step: number): Promise<boolean> => {
-    console.log(`[VALIDATION] Starting validation for Step ${step}`);
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/ce68e963-6408-408e-ae46-387ce13d212d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:55',message:'handleValidateStep called',data:{step:step},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
-    // #endregion
-
     // Clear only errors for the current step's fields
     const stepFields = getStepFields(step);
     stepFields.forEach(field => {
@@ -73,39 +68,11 @@ function App() {
 
     // Get current form values
     const formData = getValues();
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/ce68e963-6408-408e-ae46-387ce13d212d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:58',message:'Form data before validation',data:{formDataKeys:Object.keys(formData),nome:formData.nome,email:formData.email,linkedin:formData.linkedin},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
-    // #endregion
-
-    // Log form data for debugging (special handling for FileList)
-    console.log('[VALIDATION] Current form data:', {
-      ...formData,
-      cv: formData.cv instanceof FileList
-        ? `FileList(${formData.cv.length} files)`
-        : formData.cv instanceof File
-        ? `File: ${formData.cv.name}`
-        : formData.cv,
-    });
 
     // Validate the step
     const { isValid, errors: validationErrors } = await validateStep(step, formData);
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/ce68e963-6408-408e-ae46-387ce13d212d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:71',message:'Validation result',data:{isValid:isValid,validationErrors:validationErrors,hasErrors:!!validationErrors,errorKeys:validationErrors?Object.keys(validationErrors):[]},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
-    // #endregion
-
-    // Set errors if validation failed
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/ce68e963-6408-408e-ae46-387ce13d212d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:83',message:'Checking validation condition',data:{isValid:isValid,hasValidationErrors:!!validationErrors,validationErrorKeys:validationErrors?Object.keys(validationErrors):[],conditionResult:!isValid && validationErrors && Object.keys(validationErrors).length > 0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'G'})}).catch(()=>{});
-    // #endregion
     
     if (!isValid && validationErrors && Object.keys(validationErrors).length > 0) {
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/ce68e963-6408-408e-ae46-387ce13d212d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:87',message:'INSIDE IF BLOCK - Validation failed',data:{step:step},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H'})}).catch(()=>{});
-      // #endregion
-      console.error('[VALIDATION] Validation failed with errors:', validationErrors);
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/ce68e963-6408-408e-ae46-387ce13d212d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:90',message:'Validation failed - setting errors',data:{step:step,validationErrors:validationErrors,errorCount:Object.keys(validationErrors).length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-      // #endregion
 
       const errorMessages = Object.values(validationErrors);
       const errorCount = errorMessages.length;
@@ -122,10 +89,6 @@ function App() {
       setValidationErrors(validationErrors);
       
       Object.entries(validationErrors).forEach(([field, message]) => {
-        console.log(`[VALIDATION] Setting error for field "${field}": ${message}`);
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/ce68e963-6408-408e-ae46-387ce13d212d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:124',message:'Setting error for field',data:{field:field,message:message},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-        // #endregion
         setError(field as keyof FormData, {
           type: 'manual',
           message: message as string,
@@ -135,7 +98,6 @@ function App() {
       // Scroll to first error and focus it
       const firstErrorField = Object.keys(validationErrors)[0];
       if (firstErrorField) {
-        console.log(`[VALIDATION] Scrolling to first error field: ${firstErrorField}`);
         setTimeout(() => {
           const element = document.getElementsByName(firstErrorField)[0];
           if (element) {
@@ -149,8 +111,6 @@ function App() {
           }
         }, 100);
       }
-    } else {
-      console.log(`[VALIDATION] Step ${step} validated successfully!`);
     }
 
     return isValid;
@@ -161,13 +121,10 @@ function App() {
     setSubmissionError('');
 
     try {
-      console.log('Submitting form data:', data);
-
       // Submit to webhook
       const result = await submitToWebhook(data);
 
       if (result.success) {
-        console.log('Form submitted successfully!');
         clearSavedData(); // Clear localStorage after successful submission
         setSubmissionStatus('success');
       } else {

@@ -36,8 +36,13 @@ export const LocationSelector = forwardRef<HTMLSelectElement, LocationSelectorPr
         setSelectedCountry(country);
         setSelectedState(state);
         setSelectedCity(city);
+      } else {
+        // Reset state when value is cleared
+        setSelectedCountry('');
+        setSelectedState('');
+        setSelectedCity('');
       }
-    }, []);
+    }, [value]);
 
     // Get all countries
     const countries = Country.getAllCountries();

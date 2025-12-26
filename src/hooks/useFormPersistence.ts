@@ -1,6 +1,6 @@
-import { useEffect, useCallback } from 'react';
-import { UseFormWatch, UseFormSetValue } from 'react-hook-form';
-import { FormData } from '../types/application';
+import { useCallback, useEffect } from 'react';
+import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
+import { CVMetadata, FormData } from '../types/application';
 
 const STORAGE_KEY = 'ai-engineer-form-draft';
 const AUTOSAVE_DELAY = 1000; // 1 second debounce
@@ -25,14 +25,16 @@ export const useFormPersistence = ({ watch, setValue }: UseFormPersistenceProps)
         // Restore all saved fields
         Object.entries(parsed).forEach(([key, value]) => {
           if (value !== undefined && value !== null) {
+            // Skip metadata fields - they're not form fields
+            if (key === 'cv_metadata') {
+              return;
+            }
             // Skip File objects (they can't be serialized)
             if (key !== 'cv') {
               setValue(key as keyof FormData, value as any);
             }
           }
         });
-
-        console.log('Form data restored from localStorage');
       }
     } catch (error) {
       console.error('Failed to restore form data:', error);
@@ -56,10 +58,19 @@ export const useFormPersistence = ({ watch, setValue }: UseFormPersistenceProps)
         try {
           // Create a copy without File objects (they can't be serialized)
           const dataToSave: any = { ...formData };
+
+          // Save CV metadata if file exists
+          if (formData.cv instanceof File) {
+            dataToSave.cv_metadata = {
+              filename: formData.cv.name,
+              size: formData.cv.size,
+              lastModified: formData.cv.lastModified,
+            };
+          }
+
           delete dataToSave.cv;
 
           localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
-          console.log('Form data auto-saved to localStorage');
         } catch (error) {
           console.error('Failed to save form data:', error);
         }
@@ -78,7 +89,6 @@ export const useFormPersistence = ({ watch, setValue }: UseFormPersistenceProps)
   const clearSavedData = useCallback(() => {
     try {
       localStorage.removeItem(STORAGE_KEY);
-      console.log('Saved form data cleared');
     } catch (error) {
       console.error('Failed to clear saved data:', error);
     }
@@ -98,4 +108,20 @@ export const useFormPersistence = ({ watch, setValue }: UseFormPersistenceProps)
     clearSavedData,
     hasSavedData,
   };
+};
+
+/**
+ * Get saved CV metadata from localStorage
+ */
+export const getSavedCVMetadata = (): CVMetadata | null => {
+  try {
+    const savedData = localStorage.getItem(STORAGE_KEY);
+    if (savedData) {
+      const parsed = JSON.parse(savedData);
+      return parsed.cv_metadata || null;
+    }
+    return null;
+  } catch {
+    return null;
+  }
 };

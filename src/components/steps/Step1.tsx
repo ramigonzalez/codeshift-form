@@ -12,10 +12,6 @@ interface Step1Props {
 }
 
 export const Step1 = ({ register, errors, control }: Step1Props) => {
-  // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/ce68e963-6408-408e-ae46-387ce13d212d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Step1.tsx:15',message:'Step1 render - errors object',data:{errors:errors,hasNomeError:!!errors.nome?.message,nomeError:errors.nome?.message},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-  // #endregion
-
   return (
     <div className={layoutStyles.section}>
       <Input

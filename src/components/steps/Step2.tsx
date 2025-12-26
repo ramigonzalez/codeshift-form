@@ -1,6 +1,7 @@
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 import { Select, CheckboxGroup, Input, Textarea, FileUpload } from '../common';
 import { FormData } from '../../types/application';
+import { getSavedCVMetadata } from '../../hooks/useFormPersistence';
 import layoutStyles from '../../styles/layout.module.css';
 
 interface Step2Props {
@@ -9,6 +10,8 @@ interface Step2Props {
 }
 
 export const Step2 = ({ register, errors }: Step2Props) => {
+  const savedCVMetadata = getSavedCVMetadata();
+
   const pythonOptions = [
     { value: '', label: 'Selecione...' },
     { value: 'menos-1', label: 'Menos de 1 ano' },
@@ -110,6 +113,7 @@ export const Step2 = ({ register, errors }: Step2Props) => {
           {...register('cv')}
           error={errors.cv?.message}
           hint="Obrigatório - PDF, máx 5MB"
+          savedMetadata={savedCVMetadata}
         />
       </div>
     </>

@@ -115,6 +115,13 @@ export interface FormData {
   comentarios?: string;
 }
 
+// CV Metadata for localStorage persistence
+export interface CVMetadata {
+  filename: string;
+  size: number;
+  lastModified: number;
+}
+
 // Helper type to check if technical questions should be shown
 export type RAGLevelWithTechnicalQuestions = 'basico' | 'intermediario' | 'avancado';
 
